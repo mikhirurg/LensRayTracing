@@ -11,6 +11,7 @@ public class GLObject implements Drawable {
     private Vector3D shift;
     private Vector3D scale;
     private Color color;
+    private boolean intersectable;
     private final int renderType;
 
     GLObject(double[] data, double[] vertices, Vector3D shift, Vector3D scale, Color color, int renderType) {
@@ -88,5 +89,19 @@ public class GLObject implements Drawable {
     @Override
     public Cortege<Double, Vector3D, Vector3D> intersect(Ray ray, boolean near) {
         return Cortege.of(1000.0, null, null);
+    }
+
+    @Override
+    public void setIntersectable(boolean intersectable) {
+        this.intersectable = intersectable;
+    }
+
+    @Override
+    public boolean getIntersetable() {
+        return intersectable;
+    }
+
+    public boolean isIntersectable() {
+        return intersectable;
     }
 }

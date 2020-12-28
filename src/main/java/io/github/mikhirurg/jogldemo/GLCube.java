@@ -87,6 +87,12 @@ public class GLCube extends GLObject {
 
     @Override
     public Cortege<Double, Vector3D, Vector3D> intersect(Ray ray, boolean near) {
+
+        if (!getIntersetable()) {
+            double t = 1000;
+            return Cortege.of(t, null, null);
+        }
+
         Vector3D intersectPoint;
         Vector3D normalVector;
         double t;

@@ -21,4 +21,8 @@ public interface Drawable {
     Color getColor();
 
     Cortege<Double, Vector3D, Vector3D> intersect(Ray ray, boolean near);
+
+    void setIntersectable(boolean intersectable);
+
+    boolean getIntersetable();
 }

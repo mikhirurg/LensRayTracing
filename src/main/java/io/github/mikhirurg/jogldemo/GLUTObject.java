@@ -9,6 +9,7 @@ public class GLUTObject implements Drawable {
     private Vector3D shift;
     private Vector3D scale;
     private Color color;
+    private boolean intersectable;
 
     GLUTObject(Vector3D shift, Vector3D scale, Color color) {
         this.shift = shift;
@@ -52,5 +53,15 @@ public class GLUTObject implements Drawable {
     @Override
     public Cortege<Double, Vector3D, Vector3D> intersect(Ray ray, boolean near) {
         return null;
+    }
+
+    @Override
+    public void setIntersectable(boolean intersectable) {
+        this.intersectable = intersectable;
+    }
+
+    @Override
+    public boolean getIntersetable() {
+        return intersectable;
     }
 }

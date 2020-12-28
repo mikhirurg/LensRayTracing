@@ -101,8 +101,9 @@ public class PhysicsGLPanel extends GLJPanel {
 
                                 Ray secondNormal = new Ray(newCortege.getSecond(), newCortege.getThird(), Color.red);
                                 secondNormal.draw(gl2, 0.1);
+
+                                ray.draw(gl2, cortege.getFirst());
                             }
-                            ray.draw(gl2, cortege.getFirst());
                         }
                     }
                 }

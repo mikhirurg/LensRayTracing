@@ -19,7 +19,7 @@ public class GLCylinderLens extends GLObject {
         double a = Math.acos((radius - d) / radius);
         double da = 2 * a / n;
         for (int i = 0; i < n * 4 * 3; i += 12) {
-            double z = radius * Math.cos(a);
+            double z = radius * Math.cos(a) - radius + d;
             double x = radius * Math.sin(a);
             double y = height / 2.0;
             data[i] = x;
@@ -32,7 +32,7 @@ public class GLCylinderLens extends GLObject {
             data[i + 5] = z;
             a = a - da;
 
-            z = radius * Math.cos(a);
+            z = radius * Math.cos(a) - radius + d;
             x = radius * Math.sin(a);
             y = -height / 2.0;
             data[i + 6] = x;
@@ -47,7 +47,7 @@ public class GLCylinderLens extends GLObject {
 
         a = Math.acos((radius - d) / radius);
 
-        double z = radius * Math.cos(a);
+        double z = radius * Math.cos(a) - radius + d;
         double x = radius * Math.sin(a);
         double y = height / 2.0;
         data[n * 4 * 3] = x;
@@ -61,7 +61,7 @@ public class GLCylinderLens extends GLObject {
 
         a = -a;
 
-        z = radius * Math.cos(a);
+        z = radius * Math.cos(a) - radius + d;
         x = radius * Math.sin(a);
         y = -height / 2.0;
         data[n * 4 * 3 + 6] = x;
@@ -79,10 +79,10 @@ public class GLCylinderLens extends GLObject {
     private static double[] genLines(double radius, double height, double d) {
         double[] data = new double[n * 4 * 3];
 
-        double a = Math.acos(d / radius);
+        double a = Math.acos((radius - d) / radius);
         double da = 2 * a / n;
         for (int i = 0; i < n * 2 * 3; i += 6) {
-            double z = radius * Math.cos(a);
+            double z = radius * Math.cos(a) - radius + d;
             double x = radius * Math.sin(a);
             double y = height / 2.0;
             data[i] = x;
@@ -90,17 +90,17 @@ public class GLCylinderLens extends GLObject {
             data[i + 2] = z;
 
             a = a - da;
-            z = radius * Math.cos(a);
+            z = radius * Math.cos(a) - radius + d;
             x = radius * Math.sin(a);
             data[i + 3] = x;
             data[i + 4] = y;
             data[i + 5] = z;
         }
 
-        a = Math.acos(d / radius);
+        a = Math.acos((radius - d) / radius);
         System.out.println(a / Math.PI * 180.0);
         for (int i = n * 2 * 3; i < n * 4 * 3; i += 6) {
-            double z = radius * Math.cos(a);
+            double z = radius * Math.cos(a) - radius + d;
             double x = radius * Math.sin(a);
             double y = -height / 2.0;
             data[i] = x;
@@ -108,7 +108,7 @@ public class GLCylinderLens extends GLObject {
             data[i + 2] = z;
 
             a = a - da;
-            z = radius * Math.cos(a);
+            z = radius * Math.cos(a) - radius + d;
             x = radius * Math.sin(a);
             data[i + 3] = x;
             data[i + 4] = y;
@@ -140,21 +140,22 @@ public class GLCylinderLens extends GLObject {
         Vector3D point = ray.getPoint();
         Vector3D vector = ray.getVector();
 
-        double D = Math.pow(2 * vector.getX() * point.getX() + 2 * vector.getZ() * point.getZ(), 2) -
-                4 * (vector.getX() * vector.getX() + vector.getZ() * vector.getZ()) *
-                        (point.getX() * point.getX() + point.getZ() * point.getZ() - radius * radius);
+
+        double A = (vector.getX() * vector.getX() + vector.getZ() * vector.getZ());
+        double B = 2 * vector.getX() * point.getX() + 2 * vector.getZ() * (point.getZ() + radius - d);
+        double C = point.getX() * point.getX() + Math.pow(point.getZ() + radius - d, 2) - radius * radius;
+
+        double D = B * B - 4 * A * C;
 
         if (D < 0) {
             double t = 1000;
             return Cortege.of(t, null, null);
         }
 
-        double t = (-(2 * vector.getX() * point.getX() + 2 * vector.getZ() * point.getZ()) + Math.sqrt(D)) /
-                (2 * (vector.getX() * vector.getX() + vector.getZ() * vector.getZ()));
+        double t = (-B + Math.sqrt(D)) / (2 * A);
 
         if (near) {
-            t = Math.min(t, (-(2 * vector.getX() * point.getX() + 2 * vector.getZ() * point.getZ()) - Math.sqrt(D)) /
-                    (2 * (vector.getX() * vector.getX() + vector.getZ() * vector.getZ())));
+            t = Math.min(t, (-B - Math.sqrt(D)) / (2 * A));
 
             intersectPoint = Vector3D.of(
                     vector.getX() * t + point.getX(),
@@ -163,21 +164,21 @@ public class GLCylinderLens extends GLObject {
             );
 
             if (intersectPoint.getY() > height / 2.0 || intersectPoint.getY() < -height / 2.0 ||
-                    intersectPoint.getZ() < radius - d) {
+                    intersectPoint.getZ() < 0) {
                 t = 1000;
                 return Cortege.of(t, null, null);
             }
-            double B = Math.sqrt((4 * vector.getX() * vector.getX()) + (4 * vector.getZ() * vector.getZ()));
+            double N = Math.sqrt((4 * vector.getX() * vector.getX()) + (4 * vector.getZ() * vector.getZ()));
 
             normalVector = Vector3D.of(
-                    2 * intersectPoint.getX() / B,
+                    2 * intersectPoint.getX() / N,
                     0,
-                    2 * intersectPoint.getZ() / B
+                    2 * intersectPoint.getZ() / N
 
             ).getNormal();
         } else {
             normalVector = Vector3D.of(0, 0, -1).getNormal();
-            t = ((radius - d) - point.getZ()) / vector.getZ();
+            t = -d / vector.getZ();
         }
 
         intersectPoint = Vector3D.of(
@@ -192,5 +193,17 @@ public class GLCylinderLens extends GLObject {
     @Override
     public void draw(GL2 gl2, GLUT glut) {
         super.draw(gl2, glut);
+    }
+
+    public Vector3D getTop() {
+        return Vector3D.of(0, height / 2 - d / 8, d);
+    }
+
+    public Vector3D getRight() {
+        double a = Math.acos((radius - d) / radius) - 0.1;
+        double x = radius * Math.sin(a);
+        double z = radius * Math.cos(a) - radius + d;
+
+        return Vector3D.of(x, 0, z);
     }
 }
