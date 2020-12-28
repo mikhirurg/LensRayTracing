@@ -16,6 +16,7 @@ public class GLUTSphere extends GLUTObject {
 
     @Override
     public void draw(GL2 gl2, GLUT glut) {
+        super.draw(gl2, glut);
         gl2.glTranslatef(
                 (float) getShift().getX(),
                 (float) getShift().getY(),

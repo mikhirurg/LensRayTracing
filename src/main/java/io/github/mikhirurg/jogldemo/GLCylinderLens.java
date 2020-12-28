@@ -76,6 +76,89 @@ public class GLCylinderLens extends GLObject {
         return data;
     }
 
+    private static double[] genNormals(double[] faceDots, double radius, double height, double d) {
+        double[] data = new double[(n + 1) * 4 * 3];
+
+        double a = Math.acos((radius - d) / radius);
+
+        for (int i = 0; i < n * 4 * 3; i += 12) {
+            double x1 = faceDots[i];
+            double y1 = faceDots[i + 1];
+            double z1 = faceDots[i + 2];
+
+            double x2 = faceDots[i];
+            double y2 = faceDots[i + 3];
+            double z2 = faceDots[i + 4];
+
+            double x3 = faceDots[i + 5];
+            double y3 = faceDots[i + 6];
+            double z3 = faceDots[i + 7];
+
+            x1 -= x2;
+            y1 -= y2;
+            z1 -= z2;
+
+            x3 -= x2;
+            y3 -= y2;
+            z3 -= z2;
+
+            double nx = (y1 * z3 - y3 * z1);
+            double ny = (x3 * z1 - x1 * z3);
+            double nz = (x1 * y3 - x3 * y1);
+
+            data[i] = nx;
+            data[i + 1] = ny;
+            data[i + 2] = nz;
+
+            data[i + 3] = nx;
+            data[i + 4] = ny;
+            data[i + 5] = nz;
+
+            data[i + 6] = nx;
+            data[i + 7] = ny;
+            data[i + 8] = nz;
+
+            data[i + 9] = nx;
+            data[i + 10] = ny;
+            data[i + 11] = nz;
+        }
+
+        double x1 = faceDots[n * 4 * 3];
+        double y1 = faceDots[n * 4 * 3 + 1];
+        double z1 = faceDots[n * 4 * 3 + 2];
+
+        double x2 = faceDots[n * 4 * 3 + 3];
+        double y2 = faceDots[n * 4 * 3 + 4];
+        double z2 = faceDots[n * 4 * 3 + 5];
+
+        double x3 = faceDots[n * 4 * 3 + 6];
+        double y3 = faceDots[n * 4 * 3 + 7];
+        double z3 = faceDots[n * 4 * 3 + 8];
+
+        double nx = (y1 * z3 - y3 * z1);
+        double ny = (x3 * z1 - x1 * z3);
+        double nz = (x1 * y3 - x3 * y1);
+
+        data[n * 4 * 3] = nx;
+        data[n * 4 * 3 + 1] = ny;
+        data[n * 4 * 3 + 2] = nz;
+
+        data[n * 4 * 3 + 3] = nx;
+        data[n * 4 * 3 + 4] = ny;
+        data[n * 4 * 3 + 5] = nz;
+
+        data[n * 4 * 3 + 6] = nx;
+        data[n * 4 * 3 + 7] = ny;
+        data[n * 4 * 3 + 8] = nz;
+
+        data[n * 4 * 3 + 9] = nx;
+        data[n * 4 * 3 + 10] = ny;
+        data[n * 4 * 3 + 11] = nz;
+
+        return data;
+    }
+
+
     private static double[] genLines(double radius, double height, double d) {
         double[] data = new double[n * 4 * 3];
 
@@ -118,15 +201,16 @@ public class GLCylinderLens extends GLObject {
         return data;
     }
 
+
     public GLCylinderLens(Vector3D shift, Vector3D scale, Color color, double radius, double height, double d) {
-        super(genQuads(radius, height, d), genLines(radius, height, d), shift, scale, color, GL2.GL_QUADS);
+        super(genQuads(radius, height, d), genLines(radius, height, d), genNormals(genQuads(radius, height, d), radius, height, d), shift, scale, color, GL2.GL_QUADS);
         this.radius = radius;
         this.height = height;
         this.d = d;
     }
 
     public GLCylinderLens(double radius, double height, double d) {
-        super(genQuads(radius, height, d), genLines(radius, height, d), GL2.GL_QUADS);
+        super(genQuads(radius, height, d), genLines(radius, height, d), genNormals(genQuads(radius, height, d), radius, height, d), GL2.GL_QUADS);
         this.radius = radius;
         this.height = height;
         this.d = d;
@@ -168,17 +252,17 @@ public class GLCylinderLens extends GLObject {
                 t = 1000;
                 return Cortege.of(t, null, null);
             }
-            double N = Math.sqrt((4 * vector.getX() * vector.getX()) + (4 * vector.getZ() * vector.getZ()));
+            double N = Math.sqrt((4 * vector.getX() * vector.getX()) + (4 * (vector.getZ() - d + radius) * (vector.getZ() - d + radius)));
 
             normalVector = Vector3D.of(
                     2 * intersectPoint.getX() / N,
                     0,
-                    2 * intersectPoint.getZ() / N
+                    2 * (intersectPoint.getZ() - d + radius) / N
 
             ).getNormal();
         } else {
             normalVector = Vector3D.of(0, 0, -1).getNormal();
-            t = -d / vector.getZ();
+            t = -point.getZ() / vector.getZ();
         }
 
         intersectPoint = Vector3D.of(
@@ -200,10 +284,22 @@ public class GLCylinderLens extends GLObject {
     }
 
     public Vector3D getRight() {
-        double a = Math.acos((radius - d) / radius) - 0.1;
+        double a = Math.acos((radius - d) / radius) - 0.01;
         double x = radius * Math.sin(a);
         double z = radius * Math.cos(a) - radius + d;
 
         return Vector3D.of(x, 0, z);
+    }
+
+    public Vector3D getLeft() {
+        double a = -Math.acos((radius - d) / radius) + 0.01;
+        double x = radius * Math.sin(a);
+        double z = radius * Math.cos(a) - radius + d;
+
+        return Vector3D.of(x, 0, z);
+    }
+
+    public Vector3D getBottom() {
+        return Vector3D.of(0, -height / 2 + d / 8, d);
     }
 }

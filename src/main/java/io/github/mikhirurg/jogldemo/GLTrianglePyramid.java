@@ -60,11 +60,11 @@ public class GLTrianglePyramid extends GLObject {
     };
 
     public GLTrianglePyramid(Vector3D shift, Vector3D scale, Color color) {
-        super(glPyramid, vertices, shift, scale, color, GL2.GL_TRIANGLES);
+        super(glPyramid, vertices, null, shift, scale, color, GL2.GL_TRIANGLES);
     }
 
     public GLTrianglePyramid() {
-        super(glPyramid, vertices, GL2.GL_TRIANGLES);
+        super(glPyramid, vertices, null, GL2.GL_TRIANGLES);
     }
 
     @Override

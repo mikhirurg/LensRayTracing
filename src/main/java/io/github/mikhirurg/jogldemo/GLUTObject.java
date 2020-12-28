@@ -19,7 +19,7 @@ public class GLUTObject implements Drawable {
 
     @Override
     public void draw(GL2 gl2, GLUT glut) {
-
+        gl2.glLineWidth(2.0f);
     }
 
     @Override

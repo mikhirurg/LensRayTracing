@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class Ray {
     private final Vector3D point;
-    private final Vector3D vector;
+    private Vector3D vector;
     private final Color color;
 
     public Ray(Vector3D point, Vector3D vector, Color color) {
@@ -17,6 +17,7 @@ public class Ray {
     }
 
     public void draw(GL2 gl2, double t) {
+        gl2.glLineWidth(2.0f);
         gl2.glColor4f(
                 getColor().getRed() / 255f,
                 getColor().getGreen() / 255f,
@@ -56,6 +57,10 @@ public class Ray {
 
     public Vector3D getVector() {
         return vector;
+    }
+
+    public void setVector(Vector3D vector) {
+        this.vector = vector;
     }
 
     public Color getColor() {

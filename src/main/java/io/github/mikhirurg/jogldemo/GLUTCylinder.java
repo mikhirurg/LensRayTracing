@@ -24,6 +24,7 @@ public class GLUTCylinder extends GLUTObject {
 
     @Override
     public void draw(GL2 gl2, GLUT glut) {
+        super.draw(gl2, glut);
         gl2.glRotatef(90f, 1.0f, 0f, 0);
         gl2.glTranslatef(
                 (float) getShift().getX(),

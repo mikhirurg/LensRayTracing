@@ -8,26 +8,29 @@ import java.awt.*;
 public class GLObject implements Drawable {
     private final double[] data;
     private final double[] vertices;
+    private final double[] normals;
     private Vector3D shift;
     private Vector3D scale;
     private Color color;
     private boolean intersectable;
     private final int renderType;
 
-    GLObject(double[] data, double[] vertices, Vector3D shift, Vector3D scale, Color color, int renderType) {
+    GLObject(double[] data, double[] vertices, double[] normals, Vector3D shift, Vector3D scale, Color color, int renderType) {
         this.data = data;
         this.shift = shift;
         this.scale = scale;
         this.color = color;
         this.vertices = vertices;
         this.renderType = renderType;
+        this.normals = normals;
     }
 
-    GLObject(double[] data, double[] vertices, int renderType) {
-        this(data, vertices, Vector3D.ZERO, Vector3D.ONE, Color.WHITE, renderType);
+    GLObject(double[] data, double[] vertices, double[] normals, int renderType) {
+        this(data, vertices, normals, Vector3D.ZERO, Vector3D.ONE, Color.WHITE, renderType);
     }
 
     public void draw(GL2 gl2, GLUT glut) {
+
         gl2.glBegin(renderType);
         gl2.glColor4f(
                 getColor().getRed() / 255.0f,
@@ -36,6 +39,7 @@ public class GLObject implements Drawable {
                 getColor().getAlpha() / 255.0f
         );
         for (int i = 0; i < data.length; i += 3) {
+            gl2.glNormal3f((float) normals[i], (float) normals[i + 1], (float) normals[i + 2]);
             gl2.glVertex3f(
                     (float) (data[i] * scale.getX() + shift.getX()),
                     (float) (data[i + 1] * scale.getY() + shift.getY()),
@@ -44,6 +48,7 @@ public class GLObject implements Drawable {
         }
         gl2.glEnd();
 
+        gl2.glLineWidth(1.0f);
         gl2.glBegin(GL2.GL_LINES);
         gl2.glColor4f(1, 1, 1, 1);
         for (int i = 0; i < vertices.length; i += 3) {

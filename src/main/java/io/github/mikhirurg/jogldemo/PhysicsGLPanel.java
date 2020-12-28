@@ -7,9 +7,7 @@ import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.util.gl2.GLUT;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionAdapter;
+import java.awt.event.*;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -69,8 +67,8 @@ public class PhysicsGLPanel extends GLJPanel {
 
                 gl2.glMatrixMode(GLMatrixFunc.GL_PROJECTION);
                 gl2.glLoadIdentity();
-                //glu.gluPerspective(60, (double) getWidth() / getHeight(), 0.1, 2);
-                gl2.glOrtho(-0.5, 0.5, -0.5, 0.5, 0.1, 2);
+                //glu.gluPerspective(60, (double) getWidth() / getHeight(), -100, 100);
+                gl2.glOrtho(-getWidth() / 2.0, getWidth() / 2.0, -getHeight() / 2.0, getHeight() / 2.0, -5000, 5000);
                 glu.gluLookAt(ex[0], ey[0], ez[0], 0, 0, 0, upx[0], upy[0], upz[0]);
 
                 gl2.glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -86,7 +84,7 @@ public class PhysicsGLPanel extends GLJPanel {
                         if (cortege != null) {
                             if (cortege.getThird() != null) {
                                 Ray firstNormal = new Ray(cortege.getSecond(), cortege.getThird(), Color.red);
-                                firstNormal.draw(gl2, 0.1);
+                                firstNormal.draw(gl2, 20);
 
                                 Ray firstRefraction = ray.refract(ray.getVector(), cortege.getSecond(), cortege.getThird(), 1, 1.5);
 
@@ -97,11 +95,12 @@ public class PhysicsGLPanel extends GLJPanel {
                                 gl2.glDisable(GL2.GL_LINE_STIPPLE);
 
                                 Ray secondRefraction = firstRefraction.refract(firstRefraction.getVector(), newCortege.getSecond(), newCortege.getThird(), 1.5, 1);
-                                secondRefraction.draw(gl2, 100);
+                                secondRefraction.draw(gl2, 5000);
 
                                 Ray secondNormal = new Ray(newCortege.getSecond(), newCortege.getThird(), Color.red);
-                                secondNormal.draw(gl2, 0.1);
-
+                                secondNormal.draw(gl2, 20);
+                            }
+                            if (drawable.getIntersetable()) {
                                 ray.draw(gl2, cortege.getFirst());
                             }
                         }
@@ -182,6 +181,24 @@ public class PhysicsGLPanel extends GLJPanel {
 
                 x[0] = nx[0];
                 y[0] = ny[0];
+            }
+        });
+
+        addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if (e.getKeyChar() == ' ') {
+                    x[0] = 0;
+                    y[0] = 0;
+                    nx[0] = 0;
+                    ny[0] = 0;
+                    ex[0] = 0.5;
+                    ey[0] = 0.5;
+                    ez[0] = 1;
+                    upx[0] = 0;
+                    upy[0] = 1;
+                    upz[0] = 0;
+                }
             }
         });
     }

@@ -39,6 +39,38 @@ public class GLCube extends GLObject {
             -1, -1, -1
     };
 
+    private static final double[] glNormals = {
+            0, 0, 1,
+            0, 0, 1,
+            0, 0, 1,
+            0, 0, 1,
+
+            1, 0, 0,
+            1, 0, 0,
+            1, 0, 0,
+            1, 0, 0,
+
+            0, 0, -1,
+            0, 0, -1,
+            0, 0, -1,
+            0, 0, -1,
+
+            -1, 0, 0,
+            -1, 0, 0,
+            -1, 0, 0,
+            -1, 0, 0,
+
+            0, 1, 0,
+            0, 1, 0,
+            0, 1, 0,
+            0, 1, 0,
+
+            0, -1, 0,
+            0, -1, 0,
+            0, -1, 0,
+            0, -1, 0,
+    };
+
     private static final double[] vertices = {
             -1, 1, 1,
             1, 1, 1,
@@ -78,11 +110,11 @@ public class GLCube extends GLObject {
     };
 
     public GLCube(Vector3D shift, Vector3D scale, Color color) {
-        super(glCube, vertices, shift, scale, color, GL2.GL_QUADS);
+        super(glCube, vertices, glNormals, shift, scale, color, GL2.GL_QUADS);
     }
 
     public GLCube() {
-        super(glCube, vertices, GL2.GL_QUADS);
+        super(glCube, vertices, glNormals, GL2.GL_QUADS);
     }
 
     @Override
