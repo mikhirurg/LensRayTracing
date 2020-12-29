@@ -6,9 +6,9 @@ import com.jogamp.opengl.util.gl2.GLUT;
 import java.awt.*;
 
 public class GLObject implements Drawable {
-    private final double[] data;
-    private final double[] vertices;
-    private final double[] normals;
+    private double[] data;
+    private double[] vertices;
+    private double[] normals;
     private Vector3D shift;
     private Vector3D scale;
     private Color color;
@@ -64,6 +64,18 @@ public class GLObject implements Drawable {
 
     public double[] getData() {
         return data;
+    }
+
+    protected void setData(double[] data) {
+        this.data = data;
+    }
+
+    protected void setVertices(double[] vertices) {
+        this.vertices = vertices;
+    }
+
+    protected void setNormals(double[] normals) {
+        this.normals = normals;
     }
 
     public void setScale(Vector3D scale) {

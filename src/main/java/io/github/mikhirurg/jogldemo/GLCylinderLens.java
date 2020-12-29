@@ -7,11 +7,10 @@ import java.awt.*;
 
 public class GLCylinderLens extends GLObject {
 
-    private final double radius;
-    private final double height;
-    private final double d;
+    private double radius;
+    private double height;
+    private double d;
     private static final int n = 100;
-
 
     private static double[] genQuads(double radius, double height, double d) {
         double[] data = new double[(n + 1) * 4 * 3];
@@ -135,6 +134,14 @@ public class GLCylinderLens extends GLObject {
         double y3 = faceDots[n * 4 * 3 + 7];
         double z3 = faceDots[n * 4 * 3 + 8];
 
+        x1 -= x2;
+        y1 -= y2;
+        z1 -= z2;
+
+        x3 -= x2;
+        y3 -= y2;
+        z3 -= z2;
+
         double nx = (y1 * z3 - y3 * z1);
         double ny = (x3 * z1 - x1 * z3);
         double nz = (x1 * y3 - x3 * y1);
@@ -199,6 +206,12 @@ public class GLCylinderLens extends GLObject {
         }
 
         return data;
+    }
+
+    public void refresh() {
+        setData(genQuads(radius, height, d));
+        setVertices(genLines(radius, height, d));
+        setNormals(genNormals(genQuads(radius, height, d), radius, height, d));
     }
 
 
@@ -301,5 +314,29 @@ public class GLCylinderLens extends GLObject {
 
     public Vector3D getBottom() {
         return Vector3D.of(0, -height / 2 + d / 8, d);
+    }
+
+    public double getRadius() {
+        return radius;
+    }
+
+    public double getHeight() {
+        return height;
+    }
+
+    public double getD() {
+        return d;
+    }
+
+    public void setRadius(double radius) {
+        this.radius = radius;
+    }
+
+    public void setHeight(double height) {
+        this.height = height;
+    }
+
+    public void setD(double d) {
+        this.d = d;
     }
 }

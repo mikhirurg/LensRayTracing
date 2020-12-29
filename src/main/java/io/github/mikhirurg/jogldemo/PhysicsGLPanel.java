@@ -68,7 +68,7 @@ public class PhysicsGLPanel extends GLJPanel {
                 gl2.glMatrixMode(GLMatrixFunc.GL_PROJECTION);
                 gl2.glLoadIdentity();
                 //glu.gluPerspective(60, (double) getWidth() / getHeight(), -100, 100);
-                gl2.glOrtho(-getWidth() / 2.0, getWidth() / 2.0, -getHeight() / 2.0, getHeight() / 2.0, -5000, 5000);
+                gl2.glOrtho(-getWidth() / 2.0, getWidth() / 2.0, -getHeight() / 2.0, getHeight() / 2.0, -getWidth(), getWidth());
                 glu.gluLookAt(ex[0], ey[0], ez[0], 0, 0, 0, upx[0], upy[0], upz[0]);
 
                 gl2.glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -128,6 +128,7 @@ public class PhysicsGLPanel extends GLJPanel {
             public void mousePressed(MouseEvent e) {
                 x[0] = e.getX();
                 y[0] = e.getY();
+                requestFocus();
             }
 
             @Override
