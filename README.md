@@ -34,9 +34,9 @@ Additionally, the simulation supports the keyboard controls to change the light 
 
 | Configuration | Simulation |
 |---------------|------------|
-| ```X=0.0, Y=0.0, Z=480.0, Radius=300.0, Height=120.0, D=60.0```      | <img src="/img/demo_01.png" alt="Demo 1" width=400> |
-| ```X=0.0, Y=0.0, Z=480.0, Radius=150.0, Height=120.0, D=60.0```      | <img src="/img/demo_02.png" alt="Demo 1" width=400> |
-| ```X=0.0, Y=0.0, Z=480.0, Radius=50.0, Height=120.0, D=60.0```      | <img src="/img/demo_03.png" alt="Demo 1" width=400> |
+| X=0.0, Y=0.0, Z=480.0, Radius=300.0, Height=120.0, D=60.0      | <img src="/img/demo_01.png" alt="Demo 1" width=400> |
+| X=0.0, Y=0.0, Z=480.0, Radius=150.0, Height=120.0, D=60.0      | <img src="/img/demo_02.png" alt="Demo 1" width=400> |
+| X=0.0, Y=0.0, Z=480.0, Radius=50.0, Height=120.0, D=60.0      | <img src="/img/demo_03.png" alt="Demo 1" width=400> |
 
 ## Contributing
 
