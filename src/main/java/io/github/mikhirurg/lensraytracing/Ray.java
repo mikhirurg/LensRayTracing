@@ -1,4 +1,4 @@
-package io.github.mikhirurg.jogldemo;
+package io.github.mikhirurg.lensraytracing;
 
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;

@@ -1,4 +1,4 @@
-package io.github.mikhirurg.jogldemo;
+package io.github.mikhirurg.lensraytracing;
 
 import com.jogamp.opengl.*;
 import com.jogamp.opengl.awt.GLJPanel;
@@ -74,9 +74,6 @@ public class PhysicsGLPanel extends GLJPanel {
                 gl2.glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
                 gl2.glMatrixMode(GLMatrixFunc.GL_MODELVIEW);
                 gl2.glLoadIdentity();
-
-                /*gl.glPolygonMode(GL_FRONT, GL_FILL);
-                gl.glPolygonMode(GL_BACK, GL_LINE);*/
 
                 for (Ray ray : rays) {
                     for (Drawable drawable : glObjectList) {

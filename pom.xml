@@ -47,7 +47,7 @@
                         <index>true</index>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>PhysicsDemo</mainClass>
+                            <mainClass>io.github.mikhirurg.lensraytracing.LensRayTracingDemo</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -58,7 +58,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>PhysicsDemo</mainClass>
+                            <mainClass>io.github.mikhirurg.lensraytracing.LensRayTracingDemo</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

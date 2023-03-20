@@ -1,13 +1,15 @@
+package io.github.mikhirurg.lensraytracing;
+
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.jogamp.opengl.util.Animator;
-import io.github.mikhirurg.jogldemo.*;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-public class PhysicsDemo extends JFrame {
+public class LensRayTracingDemo extends JFrame {
 
     private static Vector3D lightCenter;
     private static Double radius = 600.0;
@@ -32,7 +34,7 @@ public class PhysicsDemo extends JFrame {
     private static JTextField lensD;
 
     private PhysicsGLPanel buildScene() {
-        PhysicsGLPanel physicsGLPanel = new PhysicsGLPanel(800, 800, new Color(0, 0, 0));
+        PhysicsGLPanel physicsGLPanel = new PhysicsGLPanel(700, 700, new Color(0, 0, 0));
 
         lightCenter = Vector3D.of(0, 0, 480);
         glCube = new GLCube(lightCenter, new Vector3D(30, 30, 30), new Color(0, 0, 255, 100));
@@ -180,92 +182,100 @@ public class PhysicsDemo extends JFrame {
         c.gridy = 0;
         c.gridwidth = 1;
         c.gridheight = 1;
-        c.anchor = GridBagConstraints.WEST;
         c.insets.right = 5;
         c.insets.bottom = 10;
         c.insets.top = 10;
+        c.insets.left = 10;
+        c.ipadx = 10;
+        JPanel xPanel = new JPanel();
+        xPanel.setLayout(new GridLayout(1, 2));
+
+
         JLabel vectorXLabel = new JLabel("X:");
-        add(vectorXLabel, c);
+        xPanel.add(vectorXLabel);
 
-        c.gridx = 2;
-        c.gridy = 0;
-        c.gridwidth = 1;
-        c.gridheight = 1;
         vectorX = new JTextField(String.valueOf(lightCenter.getX()));
-        add(vectorX, c);
+        xPanel.add(vectorX);
+
+        add(xPanel, c);
 
         c.gridx = 1;
         c.gridy = 1;
         c.gridwidth = 1;
         c.gridheight = 1;
+        JPanel yPanel = new JPanel();
+        yPanel.setLayout(new GridLayout(1, 2));
+
         JLabel vectorYLabel = new JLabel("Y:");
-        add(vectorYLabel, c);
+        yPanel.add(vectorYLabel);
 
-        c.gridx = 2;
-        c.gridy = 1;
-        c.gridwidth = 1;
-        c.gridheight = 1;
         vectorY = new JTextField(String.valueOf(lightCenter.getY()));
-        add(vectorY, c);
+        yPanel.add(vectorY);
+
+        add(yPanel, c);
 
         c.gridx = 1;
         c.gridy = 2;
         c.gridwidth = 1;
         c.gridheight = 1;
+        JPanel zPanel = new JPanel();
+        zPanel.setLayout(new GridLayout(1, 2));
+
         JLabel vectorZLabel = new JLabel("Z:");
-        add(vectorZLabel, c);
+        zPanel.add(vectorZLabel);
+
+        vectorZ = new JTextField(String.valueOf(lightCenter.getZ()));
+        zPanel.add(vectorZ);
+
+        add(zPanel, c);
+
+        c.gridx = 2;
+        c.gridy = 0;
+        c.gridwidth = 1;
+        c.gridheight = 1;
+        c.anchor = GridBagConstraints.CENTER;
+        c.weightx = 1;
+        JPanel radiusPanel = new JPanel();
+        radiusPanel.setLayout(new GridLayout(1, 2));
+
+        JLabel lensRadiusLabel = new JLabel("Radius:");
+        radiusPanel.add(lensRadiusLabel);
+
+        lensRadius = new JTextField(String.valueOf(radius));
+        radiusPanel.add(lensRadius);
+        add(radiusPanel, c);
+
+        c.gridx = 2;
+        c.gridy = 1;
+        c.gridwidth = 1;
+        c.gridheight = 1;
+        JPanel heightPanel = new JPanel();
+        heightPanel.setLayout(new GridLayout(1, 2));
+
+        JLabel lensHeightLabel = new JLabel("Height:");
+        heightPanel.add(lensHeightLabel);
+
+        lensHeight = new JTextField(String.valueOf(height));
+        heightPanel.add(lensHeight);
+
+        add(heightPanel, c);
 
         c.gridx = 2;
         c.gridy = 2;
         c.gridwidth = 1;
         c.gridheight = 1;
-        vectorZ = new JTextField(String.valueOf(lightCenter.getZ()));
-        add(vectorZ, c);
+        JPanel dPanel = new JPanel();
+        dPanel.setLayout(new GridLayout(1, 2));
 
-        c.gridx = 3;
-        c.gridy = 0;
-        c.gridwidth = 1;
-        c.gridheight = 1;
-        JLabel lensRadiusLabel = new JLabel("Radius:");
-        add(lensRadiusLabel, c);
-
-        c.gridx = 4;
-        c.gridy = 0;
-        c.gridwidth = 1;
-        c.gridheight = 1;
-        lensRadius = new JTextField(String.valueOf(radius));
-        add(lensRadius, c);
-
-        c.gridx = 3;
-        c.gridy = 1;
-        c.gridwidth = 1;
-        c.gridheight = 1;
-        JLabel lensHeightLabel = new JLabel("Height:");
-        add(lensHeightLabel, c);
-
-        c.gridx = 4;
-        c.gridy = 1;
-        c.gridwidth = 1;
-        c.gridheight = 1;
-        lensHeight = new JTextField(String.valueOf(height));
-        add(lensHeight, c);
-
-        c.gridx = 3;
-        c.gridy = 2;
-        c.gridwidth = 1;
-        c.gridheight = 1;
         JLabel lensDLabel = new JLabel("D:");
-        add(lensDLabel, c);
+        dPanel.add(lensDLabel);
 
-        c.gridx = 4;
-        c.gridy = 2;
-        c.gridwidth = 1;
-        c.gridheight = 1;
         lensD = new JTextField(String.valueOf(d));
-        add(lensD, c);
+        dPanel.add(lensD);
+        add(dPanel, c);
 
         JButton apply = new JButton("Apply");
-        c.gridx = 4;
+        c.gridx = 2;
         c.gridy = 3;
         c.gridwidth = 1;
         c.gridheight = 1;
@@ -298,17 +308,34 @@ public class PhysicsDemo extends JFrame {
                 JOptionPane.showMessageDialog(this, "Wrong input!");
             }
         });
+
+        c.gridx = 1;
+        c.gridy = 4;
+        c.gridwidth = 2;
+        c.gridheight = 1;
+        Border infoBorder = BorderFactory.createTitledBorder("How to use the project");
+        JEditorPane  textArea = new JEditorPane("text/html", "");
+        textArea.setText(Application.getProperty("app.info"));
+        textArea.setEditable(false);
+
+        JPanel infoPanel = new JPanel();
+        infoPanel.add(textArea);
+
+        infoPanel.setBorder(infoBorder);
+        add(infoPanel, c);
+
+        setResizable(false);
     }
 
-    public PhysicsDemo() {
+    public LensRayTracingDemo() {
         buildGui();
     }
 
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            final PhysicsDemo frame = new PhysicsDemo();
-            frame.setTitle("Physics Demo");
+            final LensRayTracingDemo frame = new LensRayTracingDemo();
+            frame.setTitle("Lens raytracing demo v0.1");
             frame.pack();
             frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
             frame.setVisible(true);

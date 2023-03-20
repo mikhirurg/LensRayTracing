@@ -1,4 +1,4 @@
-package io.github.mikhirurg.jogldemo;
+package io.github.mikhirurg.lensraytracing;
 
 public class Pair<T, U> {
 

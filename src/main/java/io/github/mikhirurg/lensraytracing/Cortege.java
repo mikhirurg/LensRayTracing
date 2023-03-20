@@ -1,4 +1,4 @@
-package io.github.mikhirurg.jogldemo;
+package io.github.mikhirurg.lensraytracing;
 
 public class Cortege<T, U, V> {
 
