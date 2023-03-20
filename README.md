@@ -3,6 +3,7 @@
 ## Project description
 
 Ray tracing and rays trajectory modeling for the cylindrical lens and single light source.
+This project allows to simulate the ray tracing for a simple configuration of one cylindrical lens and one light source, user can dynamically change various parameters of the simulation scheme and obtain different ray trajectories.
 
 ## Installation guide
 The project requires Java version 13+ in order to run the simulation. 
