@@ -6,7 +6,10 @@ Ray tracing and rays trajectory modeling for the cylindrical lens and single lig
 This project allows to simulate the ray tracing for a simple configuration of one cylindrical lens and one light source, user can dynamically change various parameters of the simulation scheme and obtain different ray trajectories.
 
 ## Installation guide
-The project requires Java version 13+ in order to run the simulation. 
+The project requires Java version 8+ in order to run the simulation. 
+
+```CAUTION: For the Linux platform the project only runs on Java version 8!```
+
 There are a few different ways how a user can obtain the jar file to execute the project:
 - The latest stable version of the project is available in the [Releases](https://github.com/mikhirurg/LensRayTracing/releases) section of the repository
 - The user can build the executable jar from sources by using the script ```build.sh```
