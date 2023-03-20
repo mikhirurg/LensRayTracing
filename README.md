@@ -14,10 +14,16 @@ There are a few different ways how a user can obtain the jar file to execute the
 - The latest stable version of the project is available in the [Releases](https://github.com/mikhirurg/LensRayTracing/releases) section of the repository
 - The user can build the executable jar from sources by using the script ```build.sh```
 
-After obtaining the executable jar, user can just run the following command:
+After obtaining the executable jar, the user can just run the following command:
 
 ```
 java -jar LensRayTracing*.jar
+```
+
+For macOS due to the modularization restrictions I suggest to use the following keys to run the application:
+
+```
+java --add-exports=java.base/java.lang=ALL-UNNAMED --add-exports=java.desktop/sun.awt=ALL-UNNAMED --add-exports=java.desktop/sun.java2d=ALL-UNNAMED --add-exports=jogl.all/com.jogamp.opengl.glu=ALL-UNNAMED --add-exports=jogl.all/com.jogamp.opengl.util.gl2=ALL-UNNAMED  -jar LensRayTracing*.jar
 ```
 
 ## How to use the project
